@@ -1,0 +1,316 @@
+import tkinter
+from tkinter import messagebox
+from tkinter.constants import BOTTOM, RIGHT, SE, SW
+
+datos=[["sa","sa"]]
+deposito = []
+voltotal = 0
+def etiquetaVacia(ventana):
+        etiquetaVacia = tkinter.Label(ventana, text = "", font = ("Consolas", 20),  bg = "old lace")
+        etiquetaVacia.pack()
+
+def menu():
+    ventanaInicio.withdraw()
+    ventanaMenu= tkinter.Tk()
+    ventanaMenu.title("Empresa")
+    ventanaMenu.geometry("800x400")
+    ventanaMenu.config(background = "old lace")
+
+    etiquetaSeleccion2 = tkinter.Label(ventanaMenu , text = "Menu", font = ("Consolas", 20),  bg = "old lace")
+    etiquetaSeleccion2.pack()
+
+    etiquetaVacia(ventanaMenu)        
+    
+
+    def inventario():
+        ventanaMenu.withdraw()
+
+
+        def abrirVentanaGerente():
+            ventanaSeleccion.withdraw()
+            ventanaGerente = tkinter.Tk()
+            ventanaGerente.geometry("800x400")
+            ventanaGerente.config(background = "old lace")
+            ventanaGerente.title("CD Exun S.A")
+
+            etiquetaInventario = tkinter.Label(ventanaGerente, text = "Inventario:",bg = "old lace", font = ("Consolas", 10))
+            etiquetaInventario.grid(row = 0, column = 0)
+
+
+            etiquetaBlanca3= tkinter.Label(ventanaGerente, text = "", bg = "old lace", font = ("Consolas", 10))
+            etiquetaBlanca3.grid(row = 2, column = 1)
+
+            def ingresoDeposito():
+                contador = 4
+                movimiento= tkinter.Label(ventanaGerente, text = "Volumen utilizado:", bg = "old lace", font = ("Consolas", 10))
+                movimiento.grid(row = 3, column = 0)
+                movimiento= tkinter.Label(ventanaGerente, text = voltotal, bg = "old lace", font = ("Consolas", 10))
+                movimiento.grid(row = 3, column = 1)
+                
+                for i in range (4, 30):
+                    movimiento= tkinter.Label(ventanaGerente, text = "                                             ", bg = "old lace", font = ("Consolas", 10))
+                    movimiento.grid(row = i, column = 1)
+                for i in range (4, 30):
+                    movimiento= tkinter.Label(ventanaGerente, text = "                                             ", bg = "old lace", font = ("Consolas", 10))
+                    movimiento.grid(row = i, column = 0)
+                
+                if len(deposito) == 0:
+                    movimiento= tkinter.Label(ventanaGerente, text = "El deposito se encuentra vacio", bg = "old lace", font = ("Consolas", 10))
+                    movimiento.grid(row = 5, column = 1)
+                else:
+                    for i in range(len(deposito)):
+                        etiquetaFecha = tkinter.Label(ventanaGerente, text = "Fecha:", bg = "old lace", font = ("Consolas", 10))
+                        etiquetaFecha.grid(row = contador+1, column = 0)
+                        etiquetaToneladas = tkinter.Label(ventanaGerente, text = "Volumen movido:", bg = "old lace", font = ("Consolas", 10))
+                        etiquetaToneladas.grid(row = contador+2, column = 0) 
+                        for posicion in deposito[i]:
+                            movimiento= tkinter.Label(ventanaGerente, text = "                                             ", bg = "old lace", font = ("Consolas", 10))
+                            movimiento.grid(row = contador+1, column = 1)
+                            movimiento= tkinter.Label(ventanaGerente, text = posicion, bg = "old lace", font = ("Consolas", 10))
+                            movimiento.grid(row = contador+1, column = 1)
+                            contador = contador + 1
+                
+            
+            def ayuda():
+                ventanaGerente.withdraw()
+                inicio()
+            
+            botonIngresoDatos = tkinter.Button(ventanaGerente, width = 24, text = "Ver informacion del silo", command = ingresoDeposito, font = ("Consolas", 10), bg = "burlywood1", fg = "black")
+            botonIngresoDatos.grid(row = 1, column = 1)
+
+            etiquetaBlanca3 = tkinter.Label(ventanaGerente, text = "", bg = "old lace")
+            etiquetaBlanca3.grid(row = 2, column = 1)
+            etiquetaBlanca3 = tkinter.Label(ventanaGerente, text = "", bg = "old lace")
+            etiquetaBlanca3.grid(row = 2, column = 2)
+
+            botonIngresoDatos = tkinter.Button(ventanaGerente, text = "Volver al inicio", command = ayuda, font = ("Consolas", 11), bg = "burlywood1", fg = "black")
+            botonIngresoDatos.grid(row = 1, column = 2)
+            
+        def abrirVentanaEmpleado():
+            ventanaSeleccion.withdraw()
+            ventanaEmpleado = tkinter.Tk()
+            ventanaEmpleado.geometry("800x400")
+            ventanaEmpleado.config(background = "old lace")
+            ventanaEmpleado.title("CD Exun S.A.")
+
+            etiquetaTitulo = tkinter.Label(ventanaEmpleado, text = "Movimiento de stock: ", bg = "old lace", font = ("Consolas", 10))
+            etiquetaTitulo.grid(row = 2, column = 0)
+
+            etiquetaFecha = tkinter.Label(ventanaEmpleado, text = "Fecha de la accion(dd/mm/aa):", bg = "old lace", font = ("Consolas", 10))
+            etiquetaFecha.grid(row = 2, column = 0)
+
+            etiquetaToneladas = tkinter.Label(ventanaEmpleado, text = "Cantidad de volumen movido:", bg = "old lace", font = ("Consolas", 10))
+            etiquetaToneladas.grid(row = 3, column = 0)
+
+            cajaFecha = tkinter.Entry(ventanaEmpleado)
+            cajaFecha.config(width = 26, font = ("Consolas", 10), bg = "burlywood1", fg = "black")
+            cajaFecha.grid(row = 2, column = 1)
+
+            cajaVolumen = tkinter.Entry(ventanaEmpleado)
+            cajaVolumen.config(width = 26, font = ("Consolas", 10), bg = "burlywood1", fg = "black")
+            cajaVolumen.grid(row = 3, column = 1)
+
+            def accionBotonIngresoDatos():
+                fecha = cajaFecha.get()
+                volumen = int(cajaVolumen.get())
+                fechaYvol=[fecha,volumen]
+                deposito.append(fechaYvol)
+
+                messagebox.showinfo("CD Exun S.A", "Creado exitosamente")
+
+            def ayuda():
+                ventanaEmpleado.withdraw()
+                inicio()
+
+            botonIngresoDatos = tkinter.Button(ventanaEmpleado, text = "Finalizar movimiento - agregar uno nuevo", command = accionBotonIngresoDatos, font = ("Consolas", 11), bg = "burlywood1", fg = "black")
+            botonIngresoDatos.grid(row = 5, column = 1)
+
+            etiquetaBlanca3 = tkinter.Label(ventanaEmpleado, text = "", bg = "old lace")
+            etiquetaBlanca3.grid(row = 6, column = 1)
+
+            botonIngresoDatos = tkinter.Button(ventanaEmpleado, text = "Volver al inicio", command = ayuda, font = ("Consolas", 11), bg = "burlywood1", fg = "black")
+            botonIngresoDatos.grid(row = 7, column = 1)
+
+        def inicio():
+            ventanaSeleccion.withdraw() 
+            ventanaSeleccion.deiconify()
+
+        ventanaSeleccion = tkinter.Tk()
+        ventanaSeleccion.title("CD Exun S.A")
+        ventanaSeleccion.geometry("800x400")
+        ventanaSeleccion.config(background = "old lace")
+
+        etiquetaSeleccion = tkinter.Label(ventanaSeleccion, text = "Administracion de inventario", font = ("Consolas", 20),  bg = "old lace")
+        etiquetaSeleccion.pack()
+
+        etiquetaBlanca1 = tkinter.Label(ventanaSeleccion, text = "", bg = "old lace")
+        etiquetaBlanca1.pack()
+
+        botonGerente = tkinter.Button(ventanaSeleccion, text = "Control", width = 15, command = abrirVentanaGerente, font = ("Consolas", 11), bg = "burlywood1", fg = "black")
+        botonGerente.pack()
+
+        etiquetaBlanca2 = tkinter.Label(ventanaSeleccion, text = "", bg = "old lace")
+        etiquetaBlanca2.pack()
+
+        botonEmpleado = tkinter.Button(ventanaSeleccion, text = "Ingreso/Retiro", width = 15, command = abrirVentanaEmpleado, font = ("Consolas", 11), bg = "burlywood1", fg = "black")
+        botonEmpleado.pack()
+
+        def volver():
+            ventanaSeleccion.withdraw()
+            ventanaMenu.deiconify()
+
+        etiquetaBlanca2 = tkinter.Label(ventanaSeleccion, text = "", bg = "old lace")
+        etiquetaBlanca2.pack()
+
+        botonVolver = tkinter.Button(ventanaSeleccion, text = "Volver", width = 15, command = volver, font = ("Consolas", 11), bg = "burlywood1", fg = "black")
+        botonVolver.pack()
+        inicio()
+
+    botonInventario=tkinter.Button(ventanaMenu, text = "Inventario", font = ("Consolas", 15),command= inventario, bg = "burlywood1", fg = "black")
+    botonInventario.pack()
+
+    etiquetaBlanca2 = tkinter.Label(ventanaMenu, text = "", bg = "old lace")
+    etiquetaBlanca2.pack()
+
+    botonInventario=tkinter.Button(ventanaMenu, text = "Control de distancias", font = ("Consolas", 15), bg = "burlywood1", fg = "black")
+    botonInventario.pack()
+
+    etiquetaVacia(ventanaMenu)
+
+    def asistencia():
+        ventanaMenu.withdraw()
+        ventanaAsistencia = tkinter.Tk()
+        ventanaAsistencia.title("Empresa")
+        ventanaAsistencia.geometry("800x400")
+        ventanaAsistencia.config(background = "old lace")
+
+        etiquetaSeleccion2 = tkinter.Label(ventanaAsistencia , text = "Asistencia al cliente", font = ("Consolas", 20),  bg = "old lace")
+        etiquetaSeleccion2.pack()
+
+        etiquetaVacia(ventanaAsistencia)
+        etiquetaVacia(ventanaAsistencia)
+
+        etiquetaSeleccion2 = tkinter.Label(ventanaAsistencia , text = "Correo: Guglielmonesantiago@gmail.com", font = ("Consolas", 20),  bg = "old lace")
+        etiquetaSeleccion2.pack()
+
+        etiquetaSeleccion2 = tkinter.Label(ventanaAsistencia , text = "Numero: 37914508394", font = ("Consolas", 20),  bg = "old lace")
+        etiquetaSeleccion2.pack()
+
+        def volver():
+            ventanaAsistencia.withdraw()
+            ventanaMenu.deiconify() 
+
+        botonBack=tkinter.Button(ventanaAsistencia, text = "Volver", font = ("Consolas", 15),command= volver, bg = "burlywood1", fg = "black")
+        botonBack.pack()
+            
+        
+    botonAsistencia=tkinter.Button(ventanaMenu, text = "Asistencia", font = ("Consolas", 15),command= asistencia, bg = "burlywood1", fg = "black")
+    botonAsistencia.pack()
+
+    def cerrarSesion():
+        ventanaMenu.withdraw()
+        ventanaInicio.deiconify()
+    
+    etiquetaBlanca2 = tkinter.Label(ventanaMenu, text = "", bg = "old lace")
+    etiquetaBlanca2.pack()
+
+    botonBack=tkinter.Button(ventanaMenu, text = "Cerrar sesión", font = ("Consolas", 15),command= cerrarSesion, bg = "burlywood1", fg = "black")
+    botonBack.pack() 
+
+   
+
+def registro():
+    ventanaInicio.withdraw()
+    ventanaRegistro = tkinter.Tk()
+    ventanaRegistro.title("Empresa")
+    ventanaRegistro.geometry("800x400")
+    ventanaRegistro.config(background = "old lace")
+
+    etiquetaSeleccion2 = tkinter.Label(ventanaRegistro , text = "Registro", font = ("Consolas", 20),  bg = "old lace")
+    etiquetaSeleccion2.pack()
+
+    etiquetaBlanca12 = tkinter.Label(ventanaRegistro , text = "", bg = "old lace")
+    etiquetaBlanca12.pack()
+
+    etiquetaNombre2 = tkinter.Label(ventanaRegistro , text = "Nombre: ", bg = "old lace",font = ("Consolas", 15))
+    etiquetaNombre2.pack()
+
+    cajaNombre2 = tkinter.Entry(ventanaRegistro)
+    cajaNombre2.config(width = 26, font = ("Consolas", 10), bg = "burlywood1", fg = "black")
+    cajaNombre2.pack()
+
+    etiquetaContrasena2 = tkinter.Label(ventanaRegistro , text = "Contraseña: ", bg = "old lace",font = ("Consolas", 15))
+    etiquetaContrasena2.pack()
+    cajaContrasena2 = tkinter.Entry(ventanaRegistro)
+    cajaContrasena2.config(width = 26, font = ("Consolas", 10), bg = "burlywood1", fg = "black")
+    cajaContrasena2.pack()
+
+    def accionBotonIngresoDatos():
+        contrasena = cajaContrasena2.get()
+        nombre = cajaNombre2.get()
+        datos.append([nombre,contrasena])
+        ventanaRegistro.withdraw()
+        ventanaInicio.deiconify()
+    botonIngresoDatos = tkinter.Button(ventanaRegistro, text = "Finalizar", command = accionBotonIngresoDatos, font = ("Consolas", 11), bg = "burlywood1", fg = "black")
+    botonIngresoDatos.pack()
+
+    
+
+ventanaInicio = tkinter.Tk()
+ventanaInicio.title("CD Exun S.A")
+ventanaInicio.geometry("800x400")
+ventanaInicio.config(background = "old lace")
+
+etiquetaSeleccion = tkinter.Label(ventanaInicio , text = "Inicio de sesión", font = ("Consolas", 20),  bg = "old lace")
+etiquetaSeleccion.pack()
+
+etiquetaBlanca1 = tkinter.Label(ventanaInicio , text = "", bg = "old lace")
+etiquetaBlanca1.pack()
+
+etiquetaNombre = tkinter.Label(ventanaInicio , text = "Nombre: ", bg = "old lace",font = ("Consolas", 15))
+etiquetaNombre.pack()
+
+cajaNombre = tkinter.Entry(ventanaInicio)
+cajaNombre.config(width = 26, font = ("Consolas", 10), bg = "burlywood1", fg = "black")
+cajaNombre.pack()
+
+etiquetaContrasena = tkinter.Label(ventanaInicio , text = "Contraseña: ", bg = "old lace",font = ("Consolas", 15))
+etiquetaContrasena.pack()
+
+cajaContrasena = tkinter.Entry(ventanaInicio)
+cajaContrasena.config(width = 26, font = ("Consolas", 10), bg = "burlywood1", fg = "black")
+cajaContrasena.pack()
+
+etiquetaBlanca1 = tkinter.Label(ventanaInicio , text = "", bg = "old lace")
+etiquetaBlanca1.pack()
+
+botonRegistro=tkinter.Button(ventanaInicio, text = "Registrarse",command = registro, font = ("Consolas", 11), bg = "burlywood1", fg = "black")
+botonRegistro.pack()
+
+def controlContrasena():
+    control=0
+    contrasena = cajaContrasena.get()
+    nombre = cajaNombre.get()
+    if(len(datos)>0):
+        for i in range(len(datos)):
+            if(datos[i][0]==nombre):
+                if(datos[i][1]==contrasena):
+                    control=1
+                    menu()
+
+        if(control==0):
+            etiquetaContraIncorrecta = tkinter.Label(ventanaInicio , text = "Contraseña o usuario incorrectos", bg = "old lace",font = ("Consolas", 15))
+            etiquetaContraIncorrecta.pack()
+    else:
+        etiquetaNoUsuarios = tkinter.Label(ventanaInicio , text = "No hay usuarios registrados", bg = "old lace",font = ("Consolas", 15))
+        etiquetaNoUsuarios.pack()
+
+                
+botonInicio=tkinter.Button(ventanaInicio, text = "Ingresar",command = controlContrasena, font = ("Consolas", 11), bg = "burlywood1", fg = "black")
+botonInicio.pack()
+
+def inicio():
+    ventanaInicio.withdraw() 
+    ventanaInicio.deiconify()
+inicio()
+ventanaInicio.mainloop()
